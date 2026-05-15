@@ -1,0 +1,11 @@
+{
+  "python_interpreter": "/Users/krimy/miniconda3/envs/pytorch/bin/python",
+  "camera_params": "preprocessing/camera_calibration/outputs/camera_params.json",
+  "undistort_script": "preprocessing/camera_calibration/undistort.py",
+  "reconstruct_script": "reconstruction/simplehand_reconstruct.py",
+  "simplehand_checkpoint": "reconstruction/checkpoints/simplehand_drive/epoch_200_rerun1",
+  "reconstruct_device": "auto",
+  "output_dir": "outputs",
+  "auto_load_camera_params": true,
+  "auto_undistort_before_reconstruct": false
+}

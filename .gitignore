@@ -1,0 +1,47 @@
+# macOS / editor files
+.DS_Store
+*.swp
+*.swo
+
+# Build outputs
+build/
+app/build/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# Qt Creator user settings
+*.user
+app/.qtcreator/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Runtime outputs that are generated repeatedly
+outputs/images/*
+outputs/mesh/*
+!outputs/.gitkeep
+!outputs/images/.gitkeep
+!outputs/mesh/.gitkeep
+
+# Generated camera calibration outputs
+preprocessing/camera_calibration/outputs/undistort/
+
+# Large model checkpoints: download separately, do not commit to GitHub
+reconstruction/checkpoints/simplehand_drive/*
+!reconstruction/checkpoints/README.md
+!reconstruction/checkpoints/simplehand_drive/.gitkeep
+
+# Local thesis / planning materials are not part of the public program repository
+AGENTS.md
+PROGRESS.md
+plan/
+thesis_output/
+docs/
+design/

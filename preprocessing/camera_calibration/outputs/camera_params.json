@@ -1,0 +1,51 @@
+{
+  "camera_matrix": [
+    [
+      1396.5966570250166,
+      0.0,
+      948.9631842425533
+    ],
+    [
+      0.0,
+      1393.943357593726,
+      545.8731828850562
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "distortion_coefficients": [
+    0.028030024093225366,
+    -0.15455919867355197,
+    0.0014092181854915744,
+    -0.0010165453234794175,
+    0.11148910058036765
+  ],
+  "image_size": [
+    1920,
+    1080
+  ],
+  "checkerboard_inner_corners": [
+    8,
+    8
+  ],
+  "square_size_mm": 12.0,
+  "rms_error": 0.10556232200540923,
+  "used_files": [
+    "img1.jpg",
+    "img10.jpg",
+    "img11.jpg",
+    "img12.jpg",
+    "img2.jpg",
+    "img3.jpg",
+    "img4.jpg",
+    "img5.jpg",
+    "img6.jpg",
+    "img7.jpg",
+    "img8.jpg",
+    "img9.jpg"
+  ],
+  "npz_file": "/Users/krimy/projects/i/thesis/GraProj/preprocessing/camera_calibration/outputs/result.npz"
+}
