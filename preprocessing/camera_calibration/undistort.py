@@ -87,7 +87,7 @@ def make_comparison(original, undistorted, max_width=1600):
 
     comparison = np.hstack((original, undistorted))
 
-    # 在对比图上写简单标签，答辩或论文截图时更直观。
+    # 在对比图上写简单标签，方便直接观察左右两侧结果。
     cv2.putText(comparison, "Original", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2)
     cv2.putText(
         comparison,

@@ -2,10 +2,10 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/graproj_qt_env_check.XXXXXX")"
+TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/hand_reconstruction_qt_env_check.XXXXXX")"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
-echo "== GraProj Qt environment check =="
+echo "== Hand Reconstruction Qt environment check =="
 echo "Project: $ROOT_DIR"
 echo
 
@@ -26,7 +26,7 @@ echo
 
 cat > "$TMP_DIR/CMakeLists.txt" <<'CMAKE'
 cmake_minimum_required(VERSION 3.21)
-project(GraProjQtEnvCheck LANGUAGES CXX)
+project(HandReconstructionQtEnvCheck LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -34,8 +34,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 REQUIRED COMPONENTS Widgets OpenGLWidgets)
 qt_standard_project_setup()
 
-qt_add_executable(GraProjQtEnvCheck main.cpp)
-target_link_libraries(GraProjQtEnvCheck PRIVATE Qt6::Widgets Qt6::OpenGLWidgets)
+qt_add_executable(HandReconstructionQtEnvCheck main.cpp)
+target_link_libraries(HandReconstructionQtEnvCheck PRIVATE Qt6::Widgets Qt6::OpenGLWidgets)
 CMAKE
 
 cat > "$TMP_DIR/main.cpp" <<'CPP'
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     QWidget window;
-    window.setWindowTitle("GraProj Qt Environment Check");
+    window.setWindowTitle("Hand Reconstruction Qt Environment Check");
 
     auto *layout = new QVBoxLayout(&window);
     layout->addWidget(new QLabel("Qt Widgets + OpenGLWidgets environment OK"));
@@ -71,10 +71,10 @@ cmake --build "$TMP_DIR/build" --parallel
 echo
 
 echo "== Result =="
-if [[ -x "$TMP_DIR/build/GraProjQtEnvCheck.app/Contents/MacOS/GraProjQtEnvCheck" ]]; then
-  file "$TMP_DIR/build/GraProjQtEnvCheck.app/Contents/MacOS/GraProjQtEnvCheck"
-elif [[ -x "$TMP_DIR/build/GraProjQtEnvCheck" ]]; then
-  file "$TMP_DIR/build/GraProjQtEnvCheck"
+if [[ -x "$TMP_DIR/build/HandReconstructionQtEnvCheck.app/Contents/MacOS/HandReconstructionQtEnvCheck" ]]; then
+  file "$TMP_DIR/build/HandReconstructionQtEnvCheck.app/Contents/MacOS/HandReconstructionQtEnvCheck"
+elif [[ -x "$TMP_DIR/build/HandReconstructionQtEnvCheck" ]]; then
+  file "$TMP_DIR/build/HandReconstructionQtEnvCheck"
 else
   find "$TMP_DIR/build" -maxdepth 3 -type f -perm +111 -print
 fi

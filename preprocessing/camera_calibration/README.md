@@ -7,7 +7,7 @@
 - 棋盘格相机标定；
 - 保存可复用的相机内参和畸变系数；
 - 批量图像去畸变；
-- 生成去畸变前后对比图，用于论文和答辩演示。
+- 生成去畸变前后对比图，用于结果检查和展示。
 
 ## 运行环境
 
@@ -37,7 +37,7 @@ preprocessing/camera_calibration/
 标定图片存放在 `preprocessing/camera_calibration/data/calibration_images/`，当前图片尺寸为 1920 x 1080。
 
 ```bash
-cd /Users/krimy/projects/i/thesis/GraProj
+cd /path/to/single-image-hand-reconstruction
 /Users/krimy/miniconda3/envs/pytorch/bin/python preprocessing/camera_calibration/calibrate.py
 ```
 
@@ -57,7 +57,7 @@ preprocessing/camera_calibration/outputs/camera_params.json
 验证图片存放在 `preprocessing/camera_calibration/data/validation_images/`，当前验证图片尺寸为 3024 x 4032。
 
 ```bash
-cd /Users/krimy/projects/i/thesis/GraProj
+cd /path/to/single-image-hand-reconstruction
 /Users/krimy/miniconda3/envs/pytorch/bin/python preprocessing/camera_calibration/undistort.py
 ```
 
@@ -68,14 +68,14 @@ preprocessing/camera_calibration/outputs/undistort/images/
 preprocessing/camera_calibration/outputs/undistort/comparisons/
 ```
 
-其中 `comparisons` 目录保存左右拼接的原图和去畸变图，可直接用于论文和答辩演示。
+其中 `comparisons` 目录保存左右拼接的原图和去畸变图，可直接用于结果检查和展示。
 
 ## 单张图片去畸变
 
 后续 Qt 应用可以通过 `QProcess` 调用单图模式：
 
 ```bash
-cd /Users/krimy/projects/i/thesis/GraProj
+cd /path/to/single-image-hand-reconstruction
 /Users/krimy/miniconda3/envs/pytorch/bin/python preprocessing/camera_calibration/undistort.py \
   --calibration preprocessing/camera_calibration/outputs/camera_params.json \
   --input-file path/to/input.jpg \

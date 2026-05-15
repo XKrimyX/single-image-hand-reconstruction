@@ -38,10 +38,9 @@ reconstruction/checkpoints/simplehand_drive/*
 !reconstruction/checkpoints/README.md
 !reconstruction/checkpoints/simplehand_drive/.gitkeep
 
-# Local thesis / planning materials are not part of the public program repository
+# Local notes and generated document materials are not part of the public program repository
 AGENTS.md
 PROGRESS.md
 plan/
-thesis_output/
 docs/
 design/

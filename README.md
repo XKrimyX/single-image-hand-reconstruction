@@ -1,6 +1,6 @@
 # Single Image Hand Reconstruction
 
-基于单张图像的手部三维模型重建系统。本项目是一个本科毕业设计程序工程，围绕 Qt 桌面应用、相机标定与去畸变预处理、simpleHand 单张图像三维手部重建、OBJ/STL 导出和三维模型预览构建完整演示流程。
+基于单张图像的手部三维模型重建系统，围绕 Qt 桌面应用、相机标定与去畸变预处理、simpleHand 单张图像三维手部重建、OBJ/STL 导出和三维模型预览构建完整处理流程。
 
 > 说明：本仓库主要保存可公开的程序源码、配置示例、标定样例和轻量资源。simpleHand 预训练 checkpoint 文件体积较大，未直接提交到 GitHub。
 
@@ -169,5 +169,4 @@ For another machine, update these paths before running the full pipeline.
 
 ## Repository Status
 
-This repository contains the program part of the graduation project, including the desktop application, preprocessing scripts, reconstruction scripts, sample calibration data and runtime output placeholders. Thesis documents, local build products, generated meshes/images and large model weights are excluded by `.gitignore`.
-
+This repository contains the desktop application, preprocessing scripts, reconstruction scripts, sample calibration data and runtime output placeholders. Local notes, build products, generated meshes/images and large model weights are excluded by `.gitignore`.
