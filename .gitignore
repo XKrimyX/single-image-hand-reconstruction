@@ -41,13 +41,13 @@ plan/
 thesis_output/
 assets/
 
-# Camera datasets and generated calibration artifacts
+# Camera calibration outputs generated repeatedly
 preprocessing/camera_calibration/README.md
-preprocessing/camera_calibration/calibrate.py
-preprocessing/camera_calibration/data/
+preprocessing/camera_calibration/data/validation_images/
+preprocessing/camera_calibration/outputs/undistort/
 preprocessing/camera_calibration/outputs/*
-!preprocessing/camera_calibration/outputs/
 !preprocessing/camera_calibration/outputs/camera_params.json
+!preprocessing/camera_calibration/outputs/result.npz
 
 # Large model checkpoints: send separately
 reconstruction/checkpoints/simplehand_drive/*

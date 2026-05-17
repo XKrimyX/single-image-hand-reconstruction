@@ -75,6 +75,7 @@ void ReconstructionRunner::handleFinished(int exitCode, QProcess::ExitStatus exi
     } else if (m_currentTask == Task::Reconstruct) {
         ReconstructionResult result;
         if (ok) {
+            // simpleHand 的输出名带时间戳，Qt 不提前猜文件名，直接取最新的结果 JSON。
             const QString resultJson = findLatestResultJson(m_currentOutputDir);
             result = readReconstructionResult(resultJson);
             ok = result.success;
@@ -124,6 +125,7 @@ bool ReconstructionRunner::startTask(Task task, const QString &taskName, const Q
 QString ReconstructionRunner::findLatestResultJson(const QString &outputDir) const
 {
     QDir dir(outputDir);
+    // QDir::Time 按修改时间排序，第一项就是刚刚这次推理写出的结果。
     const QFileInfoList files = dir.entryInfoList(QStringList() << "*_result.json", QDir::Files, QDir::Time);
     if (files.isEmpty()) {
         return QString();
@@ -151,7 +153,7 @@ ReconstructionResult ReconstructionRunner::readReconstructionResult(const QStrin
     result.success = object.value("success").toBool(false);
     result.verticesCount = object.value("vertices_count").toInt(0);
     result.facesCount = object.value("faces_count").toInt(0);
-    // 兼容当前脚本字段 obj_path/stl_path/inference_time_sec，以及后续可能改成的 output_obj/output_stl/inference_time。
+    // 这里多兼容几个字段名，是为了以后换重建脚本时少改 Qt 代码。
     result.inferenceTime = object.value("inference_time").toDouble(object.value("inference_time_sec").toDouble(0.0));
     result.outputObj = object.value("output_obj").toString(object.value("obj_path").toString());
     result.outputStl = object.value("output_stl").toString(object.value("stl_path").toString());

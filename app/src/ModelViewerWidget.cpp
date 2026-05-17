@@ -153,6 +153,7 @@ bool ModelViewerWidget::loadMesh(const QString &meshPath)
     if (suffix == "obj") {
         ok = loadObj(meshPath);
     } else if (suffix == "stl") {
+        // STL 有 ASCII 和二进制两种，先按文本读，失败后再按二进制读。
         ok = loadAsciiStl(meshPath);
         if (!ok) {
             ok = loadBinaryStl(meshPath);
@@ -369,6 +370,7 @@ void ModelViewerWidget::drawMesh(QPainter &painter, const QRectF &area)
     QVector<FaceDrawItem> items;
     items.reserve(m_facesData.size());
 
+    // 这个查看器是轻量预览：自己做旋转、投影，再按深度排序画三角面。
     for (const MeshFace &face : m_facesData) {
         if (face.a < 0 || face.b < 0 || face.c < 0 ||
             face.a >= m_verticesData.size() || face.b >= m_verticesData.size() || face.c >= m_verticesData.size()) {

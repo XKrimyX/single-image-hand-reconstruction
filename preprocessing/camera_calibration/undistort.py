@@ -59,6 +59,7 @@ def validate_image_size(calibration_size, image_size, image_name="输入图片")
     if calibration_size is None:
         return
 
+    # 不在这里缩放内参。尺寸不一致时直接报错，避免把错误参数悄悄用于图片。
     calibration_width, calibration_height = calibration_size
     image_width, image_height = image_size
     if calibration_width != image_width or calibration_height != image_height:
@@ -125,6 +126,7 @@ def run_undistort_file(calibration_file, input_file, output_file, crop=False):
         raise RuntimeError(f"无法读取图片：{input_file}")
 
     height, width = image.shape[:2]
+    # Qt 里点“去畸变”时也会走到这里，所以尺寸检查放在脚本层最稳。
     validate_image_size(calibration_size, (width, height), input_file.name)
     undistorted, cropped = undistort_image(image, K, dist)
     output_file.parent.mkdir(parents=True, exist_ok=True)

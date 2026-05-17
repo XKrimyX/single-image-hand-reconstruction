@@ -72,6 +72,7 @@ def letterbox_image(image, input_size):
     pad_left = (side - width) // 2
     pad_right = side - width - pad_left
 
+    # simpleHand 输入固定为正方形。这里先补黑边再缩放，避免把手直接拉变形。
     padded = cv2.copyMakeBorder(
         image,
         pad_top,
@@ -106,6 +107,7 @@ def load_image_tensor(image_path, input_size, device):
         raise FileNotFoundError(f"无法读取输入图片：{image_path}")
 
     resized, preprocess_info = letterbox_image(image, input_size)
+    # HandNet.forward 里会做 image / 255 - 0.5，这里不要再重复归一化。
     tensor = resized.astype(np.float32).transpose(2, 0, 1)
     tensor = torch.from_numpy(tensor).unsqueeze(0).to(device)
     return tensor, preprocess_info
@@ -121,6 +123,7 @@ def prepare_simplehand_import(simplehand_root):
         raise FileNotFoundError(f"simpleHand 源码目录缺少文件：{', '.join(missing)}")
 
     sys.path.insert(0, str(simplehand_root))
+    # vendor 里的代码有相对路径假设，切过去能少改原作者代码。
     os.chdir(str(simplehand_root))
     return simplehand_root
 
@@ -166,6 +169,7 @@ def export_obj(path, vertices, faces):
         for vertex in vertices:
             f.write("v %.8f %.8f %.8f\n" % (vertex[0], vertex[1], vertex[2]))
         for face in faces:
+            # OBJ 的索引从 1 开始，MANO faces 里是从 0 开始。
             f.write("f %d %d %d\n" % (face[0] + 1, face[1] + 1, face[2] + 1))
 
 
@@ -195,6 +199,7 @@ def run_inference(args, output_paths):
     with torch.no_grad():
         output = model(image_tensor)
 
+    # 当前使用 MANO 兼容网格，simpleHand 输出固定为 778 个顶点。
     uv = output["uv"].reshape(1, 21, 2)[0].detach().cpu().numpy()
     joints = output["joints"].reshape(1, 21, 3)[0].detach().cpu().numpy()
     vertices = output["vertices"].reshape(1, 778, 3)[0].detach().cpu().numpy()

@@ -233,6 +233,8 @@ void MainWindow::startReconstruct()
         return;
     }
 
+    // 如果刚做过去畸变，就用去畸变图；否则直接用原图重建。
+    // 这样演示时可以跳过预处理，不会把重建流程卡死在标定图片尺寸上。
     const QString inputPath = m_processedImagePath.isEmpty() ? m_currentImagePath : m_processedImagePath;
     m_panel->setModelStatus("重建中");
     // simpleHand 脚本会在 outputs/mesh 下自行生成 OBJ、STL 和 *_result.json。
@@ -335,6 +337,7 @@ void MainWindow::handleUndistortFinished(bool ok, const QString &outputImagePath
 void MainWindow::handleReconstructFinished(bool ok, const ReconstructionResult &result, const QString &message, qint64 elapsedMs)
 {
     if (ok) {
+        // 后续导出按钮只是复制这两个文件，不再重新跑 Python。
         m_currentMeshPath = result.outputObj;
         m_currentStlPath = result.outputStl;
         m_modelViewer->setMeshInfo(result.outputObj, result.verticesCount, result.facesCount);
@@ -358,6 +361,7 @@ void MainWindow::handleReconstructFinished(bool ok, const ReconstructionResult &
 void MainWindow::loadCameraParams()
 {
     const QString cameraPath = m_config.resolvePath(m_config.cameraParamsPath);
+    // 这里只检查文件是否存在；真正的矩阵内容由 Python 去畸变脚本读取。
     m_cameraLoaded = m_config.autoLoadCameraParams && QFileInfo::exists(cameraPath);
     m_panel->setCameraStatus(m_cameraLoaded ? "已加载" : "未加载");
     m_panel->appendLog(m_cameraLoaded ? "相机参数已加载：" + cameraPath : "未找到相机参数：" + cameraPath);

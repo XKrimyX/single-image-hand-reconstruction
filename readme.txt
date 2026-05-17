@@ -54,6 +54,12 @@ Qt 主窗口、二维图像查看器、三维模型查看器、重建任务调�
 preprocessing/
 预处理脚本目录。
 
+preprocessing/camera_calibration/calibrate.py
+相机标定脚本，读取 calibration_images 中的棋盘格图片，生成相机参数。
+
+preprocessing/camera_calibration/data/calibration_images/
+相机标定用的棋盘格图片。
+
 preprocessing/camera_calibration/undistort.py
 单张图片或批量图片去畸变脚本。
 
@@ -134,7 +140,29 @@ build\app\Release\HandReconstruction.exe
 6. 可以导出 OBJ、STL 或保存三维预览截图。
 
 
-八、常见问题
+八、相机标定和去畸变脚本
+
+重新标定相机：
+
+python preprocessing/camera_calibration/calibrate.py
+
+标定结果会写入：
+
+preprocessing/camera_calibration/outputs/result.npz
+preprocessing/camera_calibration/outputs/camera_params.json
+
+批量去畸变：
+
+python preprocessing/camera_calibration/undistort.py
+
+单张图片去畸变：
+
+python preprocessing/camera_calibration/undistort.py --calibration preprocessing/camera_calibration/outputs/camera_params.json --input-file 输入图片路径 --output-file 输出图片路径
+
+注意：去畸变图片尺寸需要和标定图片尺寸一致。当前相机参数对应 1920 x 1080 图片。
+
+
+九、常见问题
 
 1. CMake 找不到 Qt
 
