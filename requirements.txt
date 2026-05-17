@@ -1,0 +1,6 @@
+torch==2.5.1
+opencv-python==4.13.0
+numpy==2.2.5
+timm==0.9.12
+hiera-transformer==0.1.2
+trimesh==4.12.2
