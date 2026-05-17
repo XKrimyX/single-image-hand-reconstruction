@@ -54,24 +54,19 @@ def load_camera_parameters(calibration_file):
     raise ValueError(f"不支持的相机参数文件格式：{calibration_file}")
 
 
-def scale_camera_matrix(K, calibration_size, image_size):
-    """当输入图尺寸和标定图尺寸不同时，按宽高比例缩放相机内参。"""
+def validate_image_size(calibration_size, image_size, image_name="输入图片"):
+    """检查待处理图片尺寸是否与标定图片一致。"""
     if calibration_size is None:
-        return K
+        return
 
     calibration_width, calibration_height = calibration_size
     image_width, image_height = image_size
-    if calibration_width == image_width and calibration_height == image_height:
-        return K
-
-    scaled_K = K.copy()
-    scale_x = image_width / float(calibration_width)
-    scale_y = image_height / float(calibration_height)
-    scaled_K[0, 0] *= scale_x
-    scaled_K[0, 2] *= scale_x
-    scaled_K[1, 1] *= scale_y
-    scaled_K[1, 2] *= scale_y
-    return scaled_K
+    if calibration_width != image_width or calibration_height != image_height:
+        raise ValueError(
+            f"{image_name}尺寸为 {image_width} x {image_height}，"
+            f"与标定图片尺寸 {calibration_width} x {calibration_height} 不一致。"
+            "请使用同一相机、同一分辨率采集的图片，或重新标定相机。"
+        )
 
 
 def make_comparison(original, undistorted, max_width=1600):
@@ -102,10 +97,9 @@ def make_comparison(original, undistorted, max_width=1600):
     return comparison
 
 
-def undistort_image(image, K, dist, calibration_size=None):
+def undistort_image(image, K, dist):
     """对单张 OpenCV 图像去畸变，返回完整图和裁剪图。"""
     height, width = image.shape[:2]
-    K = scale_camera_matrix(K, calibration_size, (width, height))
 
     # 计算新的相机内参矩阵，同时得到有效图像区域 roi。
     new_K, roi = cv2.getOptimalNewCameraMatrix(K, dist, (width, height), 1, (width, height))
@@ -130,7 +124,9 @@ def run_undistort_file(calibration_file, input_file, output_file, crop=False):
     if image is None:
         raise RuntimeError(f"无法读取图片：{input_file}")
 
-    undistorted, cropped = undistort_image(image, K, dist, calibration_size)
+    height, width = image.shape[:2]
+    validate_image_size(calibration_size, (width, height), input_file.name)
+    undistorted, cropped = undistort_image(image, K, dist)
     output_file.parent.mkdir(parents=True, exist_ok=True)
     cv2.imwrite(str(output_file), cropped if crop else undistorted)
     print(f"去畸变结果已保存：{output_file}")
@@ -157,7 +153,9 @@ def run_undistort(calibration_file=CALIBRATION_FILE, input_dir=INPUT_DIR, output
             print(f"跳过无法读取的图片：{image_file}")
             continue
 
-        undistorted, cropped = undistort_image(image, K, dist, calibration_size)
+        height, width = image.shape[:2]
+        validate_image_size(calibration_size, (width, height), image_file.name)
+        undistorted, cropped = undistort_image(image, K, dist)
         comparison = make_comparison(image, undistorted)
 
         name = image_file.stem

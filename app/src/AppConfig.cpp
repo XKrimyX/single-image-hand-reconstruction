@@ -12,7 +12,7 @@ QString AppConfig::projectRoot()
     QDir dir(QCoreApplication::applicationDirPath());
     // 开发期可执行文件在 build/app/ 下，所以从程序目录逐级向上寻找项目根目录。
     for (int i = 0; i < 8; ++i) {
-        if (QFile::exists(dir.filePath("resources/config/app_config.example.json"))) {
+        if (QFile::exists(dir.filePath("resources/config/app_config.json"))) {
             return dir.absolutePath();
         }
         dir.cdUp();
@@ -46,7 +46,8 @@ AppConfig AppConfig::loadDefault()
     config.reconstructDevice = "auto";
     config.outputDir = "outputs";
 
-    QFile file(QDir(projectRoot()).filePath("resources/config/app_config.example.json"));
+    const QDir rootDir(projectRoot());
+    QFile file(rootDir.filePath("resources/config/app_config.json"));
     if (!file.open(QIODevice::ReadOnly)) {
         return config;
     }

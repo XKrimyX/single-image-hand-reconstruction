@@ -47,5 +47,5 @@
     "img8.jpg",
     "img9.jpg"
   ],
-  "npz_file": "preprocessing/camera_calibration/outputs/result.npz"
+  "npz_file": "/Users/krimy/projects/i/thesis/GraProj/preprocessing/camera_calibration/outputs/result.npz"
 }

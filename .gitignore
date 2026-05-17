@@ -2,6 +2,10 @@
 .DS_Store
 *.swp
 *.swo
+*.user
+.vscode/
+.idea/
+app/.qtcreator/
 
 # Build outputs
 build/
@@ -14,33 +18,38 @@ Makefile
 *.cmake
 !CMakeLists.txt
 
-# Qt Creator user settings
-*.user
-app/.qtcreator/
-
 # Python cache
 __pycache__/
 *.py[cod]
 *.pyo
 
-# Runtime outputs that are generated repeatedly
+# Runtime outputs
 outputs/images/*
 outputs/mesh/*
+outputs/screenshots/*
 !outputs/.gitkeep
 !outputs/images/.gitkeep
 !outputs/mesh/.gitkeep
 
-# Generated camera calibration outputs
-preprocessing/camera_calibration/outputs/undistort/
-
-# Large model checkpoints: download separately, do not commit to GitHub
-reconstruction/checkpoints/simplehand_drive/*
-!reconstruction/checkpoints/README.md
-!reconstruction/checkpoints/simplehand_drive/.gitkeep
-
-# Local notes and generated document materials are not part of the public program repository
+# Local docs and thesis materials
+README.md
 AGENTS.md
 PROGRESS.md
-plan/
 docs/
 design/
+plan/
+thesis_output/
+assets/
+
+# Camera datasets and generated calibration artifacts
+preprocessing/camera_calibration/README.md
+preprocessing/camera_calibration/calibrate.py
+preprocessing/camera_calibration/data/
+preprocessing/camera_calibration/outputs/*
+!preprocessing/camera_calibration/outputs/
+!preprocessing/camera_calibration/outputs/camera_params.json
+
+# Large model checkpoints: send separately
+reconstruction/checkpoints/simplehand_drive/*
+!reconstruction/checkpoints/simplehand_drive/
+!reconstruction/checkpoints/simplehand_drive/.gitkeep
