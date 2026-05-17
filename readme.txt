@@ -26,18 +26,14 @@ Windows 电脑需要准备：
 
 pip install -r requirements.txt
 
-PyTorch 如果安装失败，请根据本机 CPU/CUDA 情况到 PyTorch 官网选择 Windows 对应安装命令。只做运行验证时建议使用 CPU 版。
-
 
 三、模型文件
 
-模型 checkpoint 文件较大，不放在 GitHub 中，请单独复制。
-
-需要放置到：
+模型 checkpoint 文件较大，放置在：
 
 reconstruction/checkpoints/simplehand_drive/epoch_200_rerun1
 
-如果没有该文件，Qt 程序可以编译和启动，但点击“开始重建”会失败。
+如果没有该文件，Qt 程序可以编译和启动，但点击"开始重建"会失败。
 
 
 四、主要文件和文件夹说明
@@ -106,25 +102,20 @@ Windows 上重点修改 python_interpreter，例如：
 
 六、命令行编译 Qt 程序
 
-进入项目目录，例如：
-
-cd /d D:\GraProj
+进入项目根目录
 
 配置 CMake：
 
 cmake -S . -B build -DCMAKE_PREFIX_PATH=Qt安装目录
 
-请把 Qt安装目录 改成自己电脑上真实的 Qt 路径，例如 Qt 官方安装目录或 MSYS2/MinGW 对应的 Qt 前缀路径。使用的 C++ 编译器应与该 Qt 版本匹配。
+Qt安装目录改成电脑上 Qt 路径。
 
 编译程序：
 
 cmake --build build --target HandReconstruction -j4
 
-如果使用的是 Visual Studio 这类多配置生成器，也可以在编译时指定 Release：
 
-cmake --build build --target HandReconstruction --config Release -j4
-
-生成的程序位于 build 目录下，具体位置与 CMake 生成器有关，常见位置包括：
+生成的程序位于 build 目录下：
 
 build\app\HandReconstruction.exe
 build\app\Release\HandReconstruction.exe
@@ -133,9 +124,9 @@ build\app\Release\HandReconstruction.exe
 七、运行流程
 
 1. 启动 HandReconstruction.exe。
-2. 点击“打开图片”，选择 JPG、PNG 或 BMP 手部图片。
-3. 如需预处理并且图片尺寸与相机参数匹配，可点击“去畸变”。
-4. 点击“开始重建”。
+2. 点击"打开图片"，选择 JPG、PNG 或 BMP 手部图片。
+3. 如需预处理并且图片尺寸与相机参数匹配，可点击"去畸变"。
+4. 点击"开始重建"。
 5. 重建成功后，右侧显示三维手部模型。
 6. 可以导出 OBJ、STL 或保存三维预览截图。
 
@@ -164,18 +155,14 @@ python preprocessing/camera_calibration/undistort.py --calibration preprocessing
 
 九、常见问题
 
-1. CMake 找不到 Qt
-
-检查 CMAKE_PREFIX_PATH 是否指向正确的 Qt 安装目录，并确认 C++ 编译器与 Qt 版本匹配。
-
-2. Python 解释器不存在
+1. Python 解释器不存在
 
 检查 resources/config/app_config.json 中 python_interpreter 是否正确。
 
-3. 开始重建失败
+2. 开始重建失败
 
 检查 checkpoint 是否已经放到 reconstruction/checkpoints/simplehand_drive/epoch_200_rerun1，并确认 requirements.txt 中的依赖已安装。
 
-4. 去畸变失败
+3. 去畸变失败
 
 当前相机参数对应 1920 x 1080 图片。若输入图片尺寸不同，可以跳过去畸变，直接开始重建。
