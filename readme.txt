@@ -16,9 +16,9 @@ Python 版本：建议 3.10 或兼容版本
 
 Windows 电脑需要准备：
 
-1. Qt 6.x for Windows，建议 MSVC 2022 64-bit 版本。
-2. Visual Studio 2022 或 Build Tools for Visual Studio 2022。
-3. CMake。
+1. Qt 6.x。
+2. CMake。
+3. 与所安装 Qt 版本匹配的 C++ 编译器，例如 MSVC 或 MinGW。
 4. Python 或 conda 环境。
 5. requirements.txt 中列出的 Python 第三方库。
 
@@ -100,22 +100,27 @@ Windows 上重点修改 python_interpreter，例如：
 
 六、命令行编译 Qt 程序
 
-请打开 x64 Native Tools Command Prompt for VS 2022，然后进入项目目录，例如：
+进入项目目录，例如：
 
 cd /d D:\GraProj
 
 配置 CMake：
 
-cmake -S . -B build -DCMAKE_PREFIX_PATH=C:/Qt/6.x.x/msvc2022_64
+cmake -S . -B build -DCMAKE_PREFIX_PATH=Qt安装目录
 
-请把 C:/Qt/6.x.x/msvc2022_64 改成自己电脑上真实的 Qt 安装路径。
+请把 Qt安装目录 改成自己电脑上真实的 Qt 路径，例如 Qt 官方安装目录或 MSYS2/MinGW 对应的 Qt 前缀路径。使用的 C++ 编译器应与该 Qt 版本匹配。
 
-编译 Release 版本：
+编译程序：
+
+cmake --build build --target HandReconstruction -j4
+
+如果使用的是 Visual Studio 这类多配置生成器，也可以在编译时指定 Release：
 
 cmake --build build --target HandReconstruction --config Release -j4
 
-生成的程序通常位于：
+生成的程序位于 build 目录下，具体位置与 CMake 生成器有关，常见位置包括：
 
+build\app\HandReconstruction.exe
 build\app\Release\HandReconstruction.exe
 
 
@@ -133,7 +138,7 @@ build\app\Release\HandReconstruction.exe
 
 1. CMake 找不到 Qt
 
-检查 CMAKE_PREFIX_PATH 是否指向 Qt 的 MSVC 版本目录，例如 C:/Qt/6.x.x/msvc2022_64。
+检查 CMAKE_PREFIX_PATH 是否指向正确的 Qt 安装目录，并确认 C++ 编译器与 Qt 版本匹配。
 
 2. Python 解释器不存在
 
